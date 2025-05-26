@@ -20,14 +20,14 @@ namespace To_doListApp.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll([FromQuery] TodoStatus? status, [FromQuery] TaskPriority? priority, [FromQuery] DateTime? dueDate)
+        public async Task<ActionResult> GetAll([FromQuery] TodoStatus? status, [FromQuery] TaskPriority? priority, [FromQuery] DateTime? dueDate)
         {
             var tasks = await _taskService.GetAllAsync(status, priority, dueDate);
             return Ok(tasks);
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
+        public async Task<ActionResult> GetById(int id)
         {
             var task = await _taskService.GetByIdAsync(id);
             if (task == null)
@@ -39,7 +39,7 @@ namespace To_doListApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] TaskCreateDto taskDto)
+        public async Task<ActionResult> Create([FromBody] TaskCreateDto taskDto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -49,7 +49,7 @@ namespace To_doListApp.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] TaskUpdateDto taskDto)
+        public async Task<ActionResult> Update(int id, [FromBody] TaskUpdateDto taskDto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -65,7 +65,7 @@ namespace To_doListApp.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
             var deleted = await _taskService.DeleteAsync(id);
             if (!deleted)
@@ -78,7 +78,7 @@ namespace To_doListApp.Controllers
         }
 
         [HttpPost("{id}/complete")]
-        public async Task<IActionResult> MarkAsComplete(int id)
+        public async Task<ActionResult> MarkAsComplete(int id)
         {
             var marked = await _taskService.MarkAsCompleteAsync(id);
             if (!marked)

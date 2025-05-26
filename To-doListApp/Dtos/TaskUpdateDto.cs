@@ -10,7 +10,7 @@ namespace To_doListApp.Dtos
 
         public string? Description { get; set; }
 
-        public DateTime DueDate { get; set; }
+        public DateTime DueDate { get; set; } 
 
         [Required]
         [EnumDataType(typeof(TaskPriority))]

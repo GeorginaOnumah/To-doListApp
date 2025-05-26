@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations; // helps you validate data
 using To_doListApp.Enums;
 
 namespace To_doListApp.Models

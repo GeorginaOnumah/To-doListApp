@@ -6,7 +6,7 @@ namespace To_doListApp.Services
 {
     public interface ITaskService
     {
-        Task<IEnumerable<TaskItem>> GetAllAsync(TodoStatus? status = null, TaskPriority? priority = null, DateTime? dueDate = null);
+        Task<IEnumerable<TaskItem>> GetAllAsync(TodoStatus? status = null, TaskPriority? priority = null, DateTime? dueDate = null); // for filtering
         Task<TaskItem> GetByIdAsync(int id);
         Task<TaskItem> CreateAsync(TaskCreateDto taskDto);
         Task<bool> UpdateAsync(int id, TaskUpdateDto taskDto);

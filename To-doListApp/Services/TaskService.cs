@@ -1,4 +1,5 @@
-﻿using To_doListApp.Dtos;
+﻿using AutoMapper;
+using To_doListApp.Dtos;
 using To_doListApp.Enums;
 using To_doListApp.Models;
 using To_doListApp.Repositories;
@@ -8,10 +9,12 @@ namespace To_doListApp.Services
     public class TaskService : ITaskService
     {
         private readonly ITaskRepository _repository;
+        private readonly IMapper _mapper;
 
-        public TaskService(ITaskRepository repository)
+        public TaskService(ITaskRepository repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
 
         public async Task<IEnumerable<TaskItem>> GetAllAsync(TodoStatus? status = null, TaskPriority? priority = null, DateTime? dueDate = null)
@@ -26,15 +29,7 @@ namespace To_doListApp.Services
 
         public async Task<TaskItem> CreateAsync(TaskCreateDto taskDto)
         {
-            var task = new TaskItem
-            { 
-                Title = taskDto.Title,
-                Description = taskDto.Description,
-                DueDate = taskDto.DueDate,
-                Priority = taskDto.Priority,
-                Status = taskDto.Status
-            };
-
+            var task = _mapper.Map<TaskItem>(taskDto);
             return await _repository.CreateAsync(task);
         }
 
@@ -43,12 +38,7 @@ namespace To_doListApp.Services
             var existingTask = await _repository.GetByIdAsync(id);
             if (existingTask == null) return false;
 
-            existingTask.Title = taskDto.Title;
-            existingTask.Description = taskDto.Description;
-            existingTask.DueDate = taskDto.DueDate;
-            existingTask.Priority = taskDto.Priority;
-            existingTask.Status = taskDto.Status;
-
+            _mapper.Map(taskDto, existingTask);
             await _repository.UpdateAsync(existingTask);
             return true;
         }

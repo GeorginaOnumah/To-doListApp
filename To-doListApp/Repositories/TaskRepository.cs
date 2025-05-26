@@ -43,16 +43,19 @@ namespace To_doListApp.Repositories
             return task;
         }
 
-        public async Task UpdateAsync(TaskItem task)
+        public async Task<bool> UpdateAsync(TaskItem task)
         {
             _context.Tasks.Update(task);
-            await _context.SaveChangesAsync();
+            var result = await _context.SaveChangesAsync();
+            return result > 0;
         }
 
-        public async Task DeleteAsync(TaskItem task)
+        public async Task<bool> DeleteAsync(TaskItem task)
         {
             _context.Tasks.Remove(task);
-            await _context.SaveChangesAsync();
+            var result = await _context.SaveChangesAsync();
+            return result > 0;
         }
     }
+    //Repository handles only entities and data operations. automapper can't be used here 
 }
