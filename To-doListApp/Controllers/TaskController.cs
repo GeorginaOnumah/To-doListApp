@@ -23,7 +23,20 @@ namespace To_doListApp.Controllers
         public async Task<ActionResult> GetAll([FromQuery] TodoStatus? status, [FromQuery] TaskPriority? priority, [FromQuery] DateTime? dueDate)
         {
             var tasks = await _taskService.GetAllAsync(status, priority, dueDate);
-            return Ok(tasks);
+            if (tasks == null || !tasks.Any())
+            {
+                return NotFound(new
+                {
+                    success = false,
+                    message = "No tasks found for this filter."
+                });
+            }
+
+            return Ok(new
+            {
+                success = true,
+                data = tasks
+            });
         }
 
         [HttpGet("{id}")]
@@ -33,9 +46,9 @@ namespace To_doListApp.Controllers
             if (task == null)
             {
                 _logger.LogWarning("Task with id {Id} not found", id);
-                return NotFound(new { Message = $"Task with id {id} not found." });
+                return NotFound(new { success = false, Message = $"Task with id {id} not found." });
             }
-            return Ok(task);
+            return Ok(new { success = true, data = task });
         }
 
         [HttpPost]
@@ -45,7 +58,7 @@ namespace To_doListApp.Controllers
                 return BadRequest(ModelState);
 
             var createdTask = await _taskService.CreateAsync(taskDto);
-            return CreatedAtAction(nameof(GetById), new { id = createdTask.Id }, createdTask);
+            return Ok(new { success = true, data = createdTask });
         }
 
         [HttpPut("{id}")]
