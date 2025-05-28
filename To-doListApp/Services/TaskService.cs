@@ -4,7 +4,7 @@ using To_doListApp.Enums;
 using To_doListApp.Models;
 using To_doListApp.Repositories;
 
-namespace To_doListApp.Services
+namespace To_doListApp.Services //receives request from the controller and interacts with the database using the repository pattern
 {
     public class TaskService : ITaskService
     {

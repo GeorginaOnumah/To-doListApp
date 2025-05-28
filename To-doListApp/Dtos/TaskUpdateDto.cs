@@ -5,12 +5,11 @@ namespace To_doListApp.Dtos
 {
     public class TaskUpdateDto
     {
-        [Required]
-        public string Title { get; set; }
+        public string? Title { get; set; }
 
         public string? Description { get; set; }
 
-        public DateTime DueDate { get; set; } 
+        public DateTime? DueDate { get; set; } 
 
         [Required]
         [EnumDataType(typeof(TaskPriority))]

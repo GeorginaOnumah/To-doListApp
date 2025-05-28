@@ -38,16 +38,16 @@ namespace To_doListApp.Repositories
 
         public async Task<TaskItem> CreateAsync(TaskItem task)
         {
-            await _context.Tasks.AddAsync(task);
-            await _context.SaveChangesAsync();
-            return task;
+            await _context.Tasks.AddAsync(task); //add to the database
+            await _context.SaveChangesAsync(); //save changes 
+            return task; //retun the created task
         }
 
         public async Task<bool> UpdateAsync(TaskItem task)
         {
-            _context.Tasks.Update(task);
+            _context.Tasks.Update(task); //mark the task as modified
             var result = await _context.SaveChangesAsync();
-            return result > 0;
+            return result > 0; // indicates success if more than 0 rows are affected
         }
 
         public async Task<bool> DeleteAsync(TaskItem task)

@@ -58,10 +58,10 @@ namespace To_doListApp.Controllers
             if (!updated)
             {
                 _logger.LogWarning("Attempt to update non-existent task with id {Id}", id);
-                return NotFound(new { Message = $"Task with id {id} not found." });
+                return Ok(new { success = false, message = $"Task with id {id} not found." });
             }
 
-            return NoContent();
+            return Ok(new { success = true });
         }
 
         [HttpDelete("{id}")]
@@ -71,10 +71,10 @@ namespace To_doListApp.Controllers
             if (!deleted)
             {
                 _logger.LogWarning("Attempt to delete non-existent task with id {Id}", id);
-                return NotFound(new { Message = $"Task with id {id} not found." });
+                return Ok(new{ success = false, message = $"Task with id {id} not found." });
             }
 
-            return NoContent();
+            return Ok(new { success = true });
         }
 
         [HttpPost("{id}/complete")]
@@ -84,10 +84,10 @@ namespace To_doListApp.Controllers
             if (!marked)
             {
                 _logger.LogWarning("Attempt to mark non-existent task as complete with id {Id}", id);
-                return NotFound(new { Message = $"Task with id {id} not found." });
+                return Ok(new { success = false, message = $"Task with id {id} not found." });
             }
 
-            return NoContent();
+            return Ok(new { success = true });
         }
     }
 }
