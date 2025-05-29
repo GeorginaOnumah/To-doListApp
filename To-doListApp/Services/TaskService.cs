@@ -50,19 +50,40 @@ namespace To_doListApp.Services //receives request from the controller and inter
 
         public async Task<ServiceResponse<bool>> UpdateAsync(int id, TaskUpdateDto taskDto)
         {
+            var response = new ServiceResponse<bool>();
             var task = await _repository.GetByIdAsync(id);
+
             if (task == null)
             {
-                return new ServiceResponse<bool>
-                {
-                    Success = false,
-                    Message = $"Task with id {id} not found.",
-                    Data = false
-                };
+                response.Success = false;
+                response.Message = $"Task with id {id} not found.";
+                response.Data = false;
+                return response;
             }
-            _mapper.Map(taskDto, task);
-            await _repository.UpdateAsync(task);
-            return new ServiceResponse<bool> { Data = true };
+
+            // Only update fields that are provided in the DTO
+            if (taskDto.Title != null)
+                task.Title = taskDto.Title;
+
+            if (taskDto.Description != null)
+                task.Description = taskDto.Description;
+
+            if (taskDto.DueDate.HasValue)
+                task.DueDate = taskDto.DueDate;
+
+            if (taskDto.Priority.HasValue)
+                task.Priority = taskDto.Priority.Value;
+
+            if (taskDto.Status.HasValue)
+                task.Status = taskDto.Status.Value;
+
+            var updateResult = await _repository.UpdateAsync(task);
+
+            response.Data = updateResult;
+            response.Success = updateResult;
+            response.Message = updateResult ? "Task updated successfully." : "Task update failed.";
+
+            return response;
         }
 
         public async Task<ServiceResponse<bool>> DeleteAsync(int id)

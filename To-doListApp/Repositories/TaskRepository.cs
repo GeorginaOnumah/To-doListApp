@@ -25,7 +25,7 @@ namespace To_doListApp.Repositories
             if (priority.HasValue)
                 query = query.Where(t => t.Priority == priority.Value);
 
-            if (dueDate.HasValue) 
+            if (dueDate.HasValue)
                 query = query.Where(t => t.DueDate.HasValue && t.DueDate.Value.Date == dueDate.Value.Date);
 
             return await query.ToListAsync();
@@ -45,7 +45,8 @@ namespace To_doListApp.Repositories
 
         public async Task<bool> UpdateAsync(TaskItem task)
         {
-            _context.Tasks.Update(task); //mark the task as modified
+            //_context.Tasks.Update(task); (mark the task as modified)
+            //commented that out because EF Core tracks changes automatically if the entity is already being tracked and that causes other other fields to reset even tho it was not modified 
             var result = await _context.SaveChangesAsync();
             return result > 0; // indicates success if more than 0 rows are affected
         }
