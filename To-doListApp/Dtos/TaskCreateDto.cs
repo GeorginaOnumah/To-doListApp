@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;// helps you validate data
 using To_doListApp.Enums;
 
 namespace To_doListApp.Dtos
@@ -15,9 +15,5 @@ namespace To_doListApp.Dtos
             [Required]
             [EnumDataType(typeof(TaskPriority))]
             public TaskPriority Priority { get; set; }
-
-            [Required]
-            [EnumDataType(typeof(TodoStatus))]
-            public TodoStatus Status { get; set; }
     }
 }

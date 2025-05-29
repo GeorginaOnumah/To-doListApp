@@ -6,11 +6,11 @@ namespace To_doListApp.Services
 {
     public interface ITaskService
     {
-        Task<IEnumerable<TaskItem>> GetAllAsync(TodoStatus? status = null, TaskPriority? priority = null, DateTime? dueDate = null); //getting a list of all task and for filtering
-        Task<TaskItem> GetByIdAsync(int id);
-        Task<TaskItem> CreateAsync(TaskCreateDto taskDto);
-        Task<bool> UpdateAsync(int id, TaskUpdateDto taskDto);
-        Task<bool> DeleteAsync(int id);
-        Task<bool> MarkAsCompleteAsync(int id);
+        Task<ServiceResponse<IEnumerable<TaskItem>>> GetAllAsync(TodoStatus? status = null, TaskPriority? priority = null, DateTime? dueDate = null);
+        Task<ServiceResponse<TaskItem>> GetByIdAsync(int id);
+        Task<ServiceResponse<TaskItem>> CreateAsync(TaskCreateDto taskDto);
+        Task<ServiceResponse<bool>> UpdateAsync(int id, TaskUpdateDto taskDto);
+        Task<ServiceResponse<bool>> DeleteAsync(int id);
+        Task<ServiceResponse<bool>> MarkAsCompleteAsync(int id);
     }
 }

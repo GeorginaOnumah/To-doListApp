@@ -11,12 +11,12 @@ namespace To_doListApp.Dtos
 
         public DateTime? DueDate { get; set; } 
 
-        [Required]
-        [EnumDataType(typeof(TaskPriority))]
-        public TaskPriority Priority { get; set; }
+        //[Required]
+        //[EnumDataType(typeof(TaskPriority))]
+        public TaskPriority? Priority { get; set; }
 
-        [Required]
-        [EnumDataType(typeof(TodoStatus))]
-        public TodoStatus Status { get; set; }
+        //[Required]
+        //[EnumDataType(typeof(TodoStatus))]
+        public TodoStatus? Status { get; set; }
     }
 }

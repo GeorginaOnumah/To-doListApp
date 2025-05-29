@@ -22,85 +22,47 @@ namespace To_doListApp.Controllers
         [HttpGet]
         public async Task<ActionResult> GetAll([FromQuery] TodoStatus? status, [FromQuery] TaskPriority? priority, [FromQuery] DateTime? dueDate)
         {
-            var tasks = await _taskService.GetAllAsync(status, priority, dueDate);
-            if (tasks == null || !tasks.Any())
-            {
-                return NotFound(new
-                {
-                    success = false,
-                    message = "No tasks found for this filter."
-                });
-            }
-
-            return Ok(new
-            {
-                success = true,
-                data = tasks
-            });
+            var response = await _taskService.GetAllAsync(status, priority, dueDate);
+            return response.Success ? Ok(response) : NotFound(response);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult> GetById(int id)
         {
-            var task = await _taskService.GetByIdAsync(id);
-            if (task == null)
-            {
-                _logger.LogWarning("Task with id {Id} not found", id);
-                return NotFound(new { success = false, Message = $"Task with id {id} not found." });
-            }
-            return Ok(new { success = true, data = task });
+            var response = await _taskService.GetByIdAsync(id);
+            return response.Success ? Ok(response) : NotFound(response);
         }
 
         [HttpPost]
         public async Task<ActionResult> Create([FromBody] TaskCreateDto taskDto)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var createdTask = await _taskService.CreateAsync(taskDto);
-            return Ok(new { success = true, data = createdTask });
+            var response = await _taskService.CreateAsync(taskDto);
+            return Ok(response);
         }
 
         [HttpPut("{id}")]
         public async Task<ActionResult> Update(int id, [FromBody] TaskUpdateDto taskDto)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var updated = await _taskService.UpdateAsync(id, taskDto);
-            if (!updated)
-            {
-                _logger.LogWarning("Attempt to update non-existent task with id {Id}", id);
-                return Ok(new { success = false, message = $"Task with id {id} not found." });
-            }
-
-            return Ok(new { success = true });
+            var response = await _taskService.UpdateAsync(id, taskDto);
+            return Ok(response);
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {
-            var deleted = await _taskService.DeleteAsync(id);
-            if (!deleted)
-            {
-                _logger.LogWarning("Attempt to delete non-existent task with id {Id}", id);
-                return Ok(new{ success = false, message = $"Task with id {id} not found." });
-            }
-
-            return Ok(new { success = true });
+            var response = await _taskService.DeleteAsync(id);
+            return Ok(response);
         }
 
         [HttpPost("{id}/complete")]
         public async Task<ActionResult> MarkAsComplete(int id)
         {
-            var marked = await _taskService.MarkAsCompleteAsync(id);
-            if (!marked)
-            {
-                _logger.LogWarning("Attempt to mark non-existent task as complete with id {Id}", id);
-                return Ok(new { success = false, message = $"Task with id {id} not found." });
-            }
-
-            return Ok(new { success = true });
+            var response = await _taskService.MarkAsCompleteAsync(id);
+            return Ok(response);
         }
     }
 }
