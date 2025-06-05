@@ -1,4 +1,5 @@
-﻿using To_doListApp.Dtos;
+﻿using Microsoft.AspNetCore.Mvc;
+using To_doListApp.Dtos;
 using To_doListApp.Enums;
 using To_doListApp.Models;
 
@@ -6,7 +7,7 @@ namespace To_doListApp.Services
 {
     public interface ITaskService
     {
-        Task<ServiceResponse<IEnumerable<TaskItem>>> GetAllAsync(TodoStatus? status = null, TaskPriority? priority = null, DateTime? dueDate = null);
+        Task<ServiceResponse<IEnumerable<TaskItem>>> GetAllAsync(TaskQueryParameters queryParameters); // returns results in the same structured format.
         Task<ServiceResponse<TaskItem>> GetByIdAsync(int id);
         Task<ServiceResponse<TaskItem>> CreateAsync(TaskCreateDto taskDto);
         Task<ServiceResponse<bool>> UpdateAsync(int id, TaskUpdateDto taskDto);

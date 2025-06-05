@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using To_doListApp.Dtos;
 using To_doListApp.Enums;
 using To_doListApp.Models;
@@ -17,9 +18,9 @@ namespace To_doListApp.Services //receives request from the controller and inter
             _mapper = mapper;
         }
 
-        public async Task<ServiceResponse<IEnumerable<TaskItem>>> GetAllAsync(TodoStatus? status = null, TaskPriority? priority = null, DateTime? dueDate = null)
+        public async Task<ServiceResponse<IEnumerable<TaskItem>>> GetAllAsync(TaskQueryParameters queryParameters)
         {
-            var tasks = await _repository.GetAllAsync(status, priority, dueDate);
+            var tasks = await _repository.GetAllAsync(queryParameters.status, queryParameters.priority, queryParameters.dueDate);
             return new ServiceResponse<IEnumerable<TaskItem>>
             {
                 Data = tasks,

@@ -20,9 +20,9 @@ namespace To_doListApp.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> GetAll([FromQuery] TodoStatus? status, [FromQuery] TaskPriority? priority, [FromQuery] DateTime? dueDate)
+        public async Task<ActionResult> GetAll([FromQuery] TaskQueryParameters queryParameters)
         {
-            var response = await _taskService.GetAllAsync(status, priority, dueDate);
+            var response = await _taskService.GetAllAsync(queryParameters);
             return response.Success ? Ok(response) : NotFound(response);
         }
 
@@ -36,8 +36,6 @@ namespace To_doListApp.Controllers
         [HttpPost]
         public async Task<ActionResult> Create([FromBody] TaskCreateDto taskDto)
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-
             var response = await _taskService.CreateAsync(taskDto);
             return Ok(response);
         }
@@ -45,8 +43,6 @@ namespace To_doListApp.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult> Update(int id, [FromBody] TaskUpdateDto taskDto)
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-
             var response = await _taskService.UpdateAsync(id, taskDto);
             return Ok(response);
         }
