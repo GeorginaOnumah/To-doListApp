@@ -7,8 +7,8 @@ namespace To_doListApp.Services
 {
     public interface ITaskService
     {
-        Task<ServiceResponse<IEnumerable<TaskItem>>> GetAllAsync(TaskQueryParameters queryParameters); // returns results in the same structured format.
-        Task<ServiceResponse<TaskItem>> GetByIdAsync(int id);
+        Task<ServiceResponse<IEnumerable<TaskResponseDto>>> GetAllAsync(TaskQueryParameters queryParameters); // returns results in the same structured format.
+        Task<ServiceResponse<TaskResponseDto>> GetByIdAsync(int id);
         Task<ServiceResponse<TaskItem>> CreateAsync(TaskCreateDto taskDto);
         Task<ServiceResponse<bool>> UpdateAsync(int id, TaskUpdateDto taskDto);
         Task<ServiceResponse<bool>> DeleteAsync(int id);

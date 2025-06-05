@@ -18,26 +18,39 @@ namespace To_doListApp.Services //receives request from the controller and inter
             _mapper = mapper;
         }
 
-        public async Task<ServiceResponse<IEnumerable<TaskItem>>> GetAllAsync(TaskQueryParameters queryParameters)
+        public async Task<ServiceResponse<IEnumerable<TaskResponseDto>>> GetAllAsync(TaskQueryParameters queryParameters)
         {
             var tasks = await _repository.GetAllAsync(queryParameters.status, queryParameters.priority, queryParameters.dueDate);
-            return new ServiceResponse<IEnumerable<TaskItem>>
+            var taskDtos = tasks.Select(task => _mapper.Map<TaskResponseDto>(task)).ToList();
+            return new ServiceResponse<IEnumerable<TaskResponseDto>>
             {
-                Data = tasks,
-                Success = tasks.Any(),
-                Message = tasks.Any() ? null : "No tasks found for this filter."
+                Data = taskDtos,
+                Success = taskDtos.Any(),
+                Message = taskDtos.Any() ? null : "No tasks found for this filter."
             };
         }
 
-        public async Task<ServiceResponse<TaskItem>> GetByIdAsync(int id)
+        public async Task<ServiceResponse<TaskResponseDto>> GetByIdAsync(int id)
         {
             var task = await _repository.GetByIdAsync(id);
-            return new ServiceResponse<TaskItem>
+            if (task == null)
             {
-                Data = task,
-                Success = task != null,
-                Message = task != null ? null : $"Task with id {id} not found."
+                return new ServiceResponse<TaskResponseDto>
+                {
+                    Data = null,
+                    Success = false,
+                    Message = $"Task with id {id} not found."
+                };
+            }
+
+            var taskDto = _mapper.Map<TaskResponseDto>(task);
+
+            return new ServiceResponse<TaskResponseDto>
+            {
+                Data = taskDto,
+                Success = true
             };
+
         }
 
         public async Task<ServiceResponse<TaskItem>> CreateAsync(TaskCreateDto taskDto)

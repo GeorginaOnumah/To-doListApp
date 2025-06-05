@@ -11,6 +11,7 @@ namespace To_doListApp.Mapper
             // Map from DTOs to Models and vice versa if needed
             CreateMap<TaskCreateDto, TaskItem>();
             CreateMap<TaskUpdateDto, TaskItem>();
+            CreateMap<TaskItem, TaskResponseDto>();
         }
     }
 }

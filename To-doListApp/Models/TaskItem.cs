@@ -13,13 +13,13 @@ namespace To_doListApp.Models
         public TaskItem() { } // Constructor for new task items or updating task items
 
         //constructor for creating a new task item with required fields and setting all the main details at once.
-        public TaskItem(string title, string description, DateTime dueDate, TodoStatus status, TaskPriority priority)
+        public TaskItem(string Title, string Description, DateTime DueDate, TodoStatus Status, TaskPriority Priority)
         {
-            Title = title;
-            Description = description;
-            DueDate = dueDate;
-            Status = status;
-            Priority = priority;
+            Title = Title;
+            Description = Description;
+            DueDate = DueDate;
+            Status = Status;
+            Priority = Priority;
         }
     }
 }
