@@ -5,7 +5,7 @@ using To_doListApp.Enums;
 using To_doListApp.Models;
 
 namespace To_doListApp.Repositories
-{
+{ //This file handles all the database operations 
     public class TaskRepository : ITaskRepository
     {
         private readonly TodoDbContext _context;
@@ -45,8 +45,7 @@ namespace To_doListApp.Repositories
 
         public async Task<bool> UpdateAsync(TaskItem task)
         {
-            //_context.Tasks.Update(task); (mark the task as modified)
-            //commented that out because EF Core tracks changes automatically if the entity is already being tracked and that causes other other fields to reset even tho it was not modified 
+            // EF Core tracks changes automatically if the entity is already being tracked and that causes other other fields to reset even tho it was not modified 
             var result = await _context.SaveChangesAsync();
             return result > 0; // indicates success if more than 0 rows are affected
         }
